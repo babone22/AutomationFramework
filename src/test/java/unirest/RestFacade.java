@@ -9,13 +9,22 @@ import com.mashape.unirest.http.exceptions.UnirestException;
  */
 public class RestFacade {
 
-    public static HttpResponse<String> get(final String address) throws UnirestException, UnirestException {
+    public HttpResponse<String> get(final String address) throws UnirestException, UnirestException {
         return Unirest.get(address).asString();
     }
 
-    public static <T> HttpResponse<T> getRequestAsObject(String address, Class<T> clazz) throws UnirestException {
+    public <T> HttpResponse<T> getRequestAsObject(String address, Class<T> clazz) throws UnirestException {
         return Unirest.get(address).asObject(clazz);
     }
 
+    public HttpResponse<String> postObjectAsString(String address) throws UnirestException {
+        return Unirest.post(address).field("postalcode", 12345).asString();
+    }
 
+
+    public <T> HttpResponse<T> postObject(String address, T clazz) throws UnirestException {
+        return Unirest.post(address)
+                .body(clazz)
+                .asObject((Class<? extends T>) clazz.getClass());
+    }
 }
